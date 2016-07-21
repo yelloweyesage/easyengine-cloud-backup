@@ -1,0 +1,10 @@
+------Backup-21-07-2016-044933------
+backendbox.net >> OK - Start Backup backendbox.net
+backendbox.net >> OK - Create temp file at /root/mibackup/temp/backendbox.net
+backendbox.net >> OK - Create zip file /root/mibackup/temp/backendbox.net/backendbox.net-21-07-2016-044934.zip
+backendbox.net >> OK - Begin dump database backendbox_net
+backendbox.net >> OK : Created Config files Dir
+backendbox.net >> OK : Config file added
+backendbox.net >> OK - Zip file ready to upload
+backendbox.net >> OK - Backup finished, temp deleted
+------End------

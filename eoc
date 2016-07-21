@@ -7,7 +7,7 @@ fi
 TEMP_DIRECTORY=$PWD"/temp"
 LOG_FILE="$PWD/log.txt"
 WEB_FOLDER="/var/www/"
-UPLOAD_MODE="minio"
+UPLOAD_MODE="gdrive"
 
 #minio config
 MINIO_NAME="mi"
@@ -17,6 +17,10 @@ upload (){
 	if [ "$UPLOAD_MODE" = "minio" ]; then
 		mc cp "$1" "$MINIO_NAME/$MINIO_BACKUP_BUCKET/$2/$1"
 	fi	
+	if [ "$UPLOAD_MODE" = "gdrive" ]; then
+		cd ..
+		gdrive upload -r "$2"
+	fi
 }
 log ()
 {
