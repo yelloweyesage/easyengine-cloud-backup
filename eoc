@@ -1,0 +1,105 @@
+#!/bin/bash
+
+if [ "$1" == "--site" ]; then
+	SITE_BACKUP=$2
+	#echo SITE_BACKUP
+fi
+TEMP_DIRECTORY=$PWD"/temp"
+LOG_FILE="$PWD/log.txt"
+WEB_FOLDER="/var/www/"
+UPLOAD_MODE="minio"
+
+#minio config
+MINIO_NAME="mi"
+MINIO_BACKUP_BUCKET="backup"
+
+upload (){
+	if [ "$UPLOAD_MODE" = "minio" ]; then
+		mc cp "$1" "$MINIO_NAME/$MINIO_BACKUP_BUCKET/$2/$1"
+	fi	
+}
+log ()
+{
+	echo "$1"
+	echo "$1" >> $LOG_FILE
+}
+log "------Backup-$(date +%d-%m-%Y-%H%M%S)------" 
+backup_config_file ()
+{
+	#backup_config_file "$WEBNAME" "CONFIG_FILE_$RAND" "$TEMP_DIRECTORY/$WEBNAME" "$FILE"
+	if [ -d "$3/$2" ]; then
+		log "$1 >> OK : Created Config files Dir"
+	else
+		mkdir -p "$3/$2"
+		log "$1 >> OK : Created Config files Dir"
+	fi
+	if [ -a "/etc/nginx/sites-available/$1" ]; then
+		mkdir -p "$3/$2/sites-available"
+		cp "/etc/nginx/sites-available/$1" "$3/$2/sites-available"
+	fi
+	if [ -a "/etc/nginx/sites-enabled/$1" ]; then
+		mkdir -p "$3/$2/sites-enabled"
+                cp "/etc/nginx/sites-enabled/$1" "$3/$2/sites-enabled"
+        fi
+	if [ -a "/etc/nginx/conf.d/force-ssl-$1.conf" ]; then
+		mkdir -p "$3/$2/conf.d"
+                cp "/etc/nginx/conf.d/force-ssl-$1.conf" "$3/$2/conf.d"
+        fi
+	cd "$3/$2"
+	cd ..
+	ls
+	zip -qur "$3/$4" "$2"
+	rm -rf "$2"
+	log "$1 >> OK : Config file added"
+}
+for i in $( ee site list ); do
+	WEBNAME=$(echo $i | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g")
+	if [ -n "$SITE_BACKUP" ]; then
+		if [ "$SITE_BACKUP" != "$WEBNAME" ]; then
+			continue
+		fi
+	fi
+	WEBDIR=$WEB_FOLDER$WEBNAME
+	log "$WEBNAME >> OK - Start Backup $WEBNAME"
+	if [ -d "$TEMP_DIRECTORY/$WEBNAME" ]; then
+		log "$WEBNAME >> OK - Create temp file at $TEMP_DIRECTORY/$WEBNAME"
+	else
+		mkdir -p $TEMP_DIRECTORY/$WEBNAME
+		log "$WEBNAME >> OK - Create temp file at $TEMP_DIRECTORY/$WEBNAME"
+		
+	fi
+	RAND=$(date +%d-%m-%Y-%H%M%S);
+	FILE=$(echo "$WEBNAME-$RAND.zip" | sed -e "s/ /-/g")
+	#cd "$TEMP_DIRECTORY/$WEBNAME"
+	log "$WEBNAME >> OK - Create zip file $TEMP_DIRECTORY/$WEBNAME/$FILE"
+	cd $WEBDIR
+	cd ../
+	zip -qr $FILE $WEBNAME/*
+	mv $FILE "$TEMP_DIRECTORY/$WEBNAME" 
+	if [ -a "$WEBDIR/wp-config.php" ]; then
+		WPDBNAME=`cat $WEBDIR/wp-config.php | grep DB_NAME | cut -d \' -f 4`
+		#log "$WEBNAME >> OK - Begin dump database $WPDBNAME"
+	elif [ -a "$WEBDIR/ee-config.php" ]; then
+		WPDBNAME=`cat $WEBDIR/ee-config.php | grep DB_NAME | cut -d \' -f 4`
+		#log "$WEBNAME >> OK - Begin dump database $WPDBNAME"
+	else
+		log "$WEBNAME >> Error - Can't Find Config File - Do not backup database"
+		upload $FILE $WEBNAME
+        	rm $FILE
+        	log "$WEBNAME >> OK - Backup finished, temp deleted"
+		log "------End------"
+		continue 
+	fi
+	log "$WEBNAME >> OK - Begin dump database $WPDBNAME"
+	SQL_FILE=$(echo "$WPDBNAME-$(date +%d-%m-%Y-%H%M%S).sql" | sed -e "s/ /-/g")
+	cd "$TEMP_DIRECTORY/$WEBNAME"
+	mysqldump $WPDBNAME > $SQL_FILE
+	zip -qu $FILE $SQL_FILE
+	rm $SQL_FILE
+	backup_config_file "$WEBNAME" "CONFIG_FILE_$RAND" "$TEMP_DIRECTORY/$WEBNAME" "$FILE"
+	log "$WEBNAME >> OK - Zip file ready to upload"
+	upload $FILE $WEBNAME
+	rm $FILE
+	log "$WEBNAME >> OK - Backup finished, temp deleted"
+	log "------End------"
+done
