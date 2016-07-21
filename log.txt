@@ -8,3 +8,62 @@ backendbox.net >> OK : Config file added
 backendbox.net >> OK - Zip file ready to upload
 backendbox.net >> OK - Backup finished, temp deleted
 ------End------
+------Backup-21-07-2016-050210------
+------Backup-21-07-2016-050253------
+------Backup-21-07-2016-050311------
+------Backup-21-07-2016-050328------
+backendbox.net >> OK - Start Backup backendbox.net
+backendbox.net >> OK - Create temp file at /root/mibackup/temp/backendbox.net
+backendbox.net >> OK - Create zip file /root/mibackup/temp/backendbox.net/backendbox.net-21-07-2016-050328.zip
+backendbox.net >> OK - Begin dump database backendbox_net
+backendbox.net >> OK : Created Config files Dir
+backendbox.net >> OK : Config file added
+backendbox.net >> OK - Zip file ready to upload
+------Backup-21-07-2016-050629------
+backendbox.net >> OK - Start Backup backendbox.net
+backendbox.net >> OK - Create temp file at /root/mibackup/temp/backendbox.net
+backendbox.net >> OK - Create zip file /root/mibackup/temp/backendbox.net/backendbox.net-21-07-2016-050630.zip
+backendbox.net >> OK - Begin dump database backendbox_net
+backendbox.net >> OK : Created Config files Dir
+backendbox.net >> OK : Config file added
+backendbox.net >> OK - Zip file ready to upload
+backendbox.net >> OK - Backup finished, temp deleted
+------End------
+songtron.net >> OK - Start Backup songtron.net
+songtron.net >> OK - Create temp file at /root/mibackup/temp/songtron.net
+songtron.net >> OK - Create zip file /root/mibackup/temp/songtron.net/songtron.net-21-07-2016-050657.zip
+songtron.net >> OK - Begin dump database songtron_net
+songtron.net >> OK : Created Config files Dir
+songtron.net >> OK : Config file added
+songtron.net >> OK - Zip file ready to upload
+songtron.net >> OK - Backup finished, temp deleted
+------End------
+console.backendbox.net >> OK - Start Backup console.backendbox.net
+console.backendbox.net >> OK - Create temp file at /root/mibackup/temp/console.backendbox.net
+console.backendbox.net >> OK - Create zip file /root/mibackup/temp/console.backendbox.net/console.backendbox.net-21-07-2016-050702.zip
+console.backendbox.net >> OK - Begin dump database console_backendbox_net
+console.backendbox.net >> OK : Created Config files Dir
+console.backendbox.net >> OK : Config file added
+console.backendbox.net >> OK - Zip file ready to upload
+console.backendbox.net >> OK - Backup finished, temp deleted
+------End------
+blog.backendbox.net >> OK - Start Backup blog.backendbox.net
+blog.backendbox.net >> OK - Create temp file at /root/mibackup/temp/blog.backendbox.net
+blog.backendbox.net >> OK - Create zip file /root/mibackup/temp/blog.backendbox.net/blog.backendbox.net-21-07-2016-050704.zip
+blog.backendbox.net >> Error - Can't Find Config File - Do not backup database
+blog.backendbox.net >> OK - Backup finished, temp deleted
+------End------
+storage.backendbox.net >> OK - Start Backup storage.backendbox.net
+storage.backendbox.net >> OK - Create temp file at /root/mibackup/temp/storage.backendbox.net
+storage.backendbox.net >> OK - Create zip file /root/mibackup/temp/storage.backendbox.net/storage.backendbox.net-21-07-2016-050710.zip
+storage.backendbox.net >> OK - Begin dump database storage_backendbox_net
+storage.backendbox.net >> OK : Created Config files Dir
+storage.backendbox.net >> OK : Config file added
+storage.backendbox.net >> OK - Zip file ready to upload
+------Backup-21-07-2016-051016------
+blog.backendbox.net >> OK - Start Backup blog.backendbox.net
+blog.backendbox.net >> OK - Create temp file at /root/mibackup/temp/blog.backendbox.net
+blog.backendbox.net >> OK - Create zip file /root/mibackup/temp/blog.backendbox.net/blog.backendbox.net-21-07-2016-051018.zip
+blog.backendbox.net >> Error - Can't Find Config File - Do not backup database
+blog.backendbox.net >> OK - Backup finished, temp deleted
+------End------

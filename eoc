@@ -13,13 +13,27 @@ UPLOAD_MODE="gdrive"
 MINIO_NAME="mi"
 MINIO_BACKUP_BUCKET="backup"
 
+set_up_gdrive (){
+	if [ -n "$(which gdrive)" ]; then
+		echo "..."
+	else
+		MACHINE_TYPE=`uname -m`
+		if [ ${MACHINE_TYPE} == 'x86_64' ]; then
+  			cp gdrive-x64 /usr/bin/gdrive
+			chmod +x /usr/bin/gdrive
+		else
+			cp gdrive-x86 /usr/bin/gdrive
+                        chmod +x /usr/bin/gdrive
+		fi
+	fi
+}
+set_up_gdrive
 upload (){
 	if [ "$UPLOAD_MODE" = "minio" ]; then
 		mc cp "$1" "$MINIO_NAME/$MINIO_BACKUP_BUCKET/$2/$1"
 	fi	
 	if [ "$UPLOAD_MODE" = "gdrive" ]; then
-		cd ..
-		gdrive upload -r "$2"
+		gdrive upload "$1"
 	fi
 }
 log ()
@@ -88,6 +102,7 @@ for i in $( ee site list ); do
 		#log "$WEBNAME >> OK - Begin dump database $WPDBNAME"
 	else
 		log "$WEBNAME >> Error - Can't Find Config File - Do not backup database"
+		cd "$TEMP_DIRECTORY/$WEBNAME"
 		upload $FILE $WEBNAME
         	rm $FILE
         	log "$WEBNAME >> OK - Backup finished, temp deleted"
