@@ -1,5 +1,4 @@
-language: go
+language: bash
 
-go:
-  - 1.3
-  - tip
+sudo: required
+dist: trusty
